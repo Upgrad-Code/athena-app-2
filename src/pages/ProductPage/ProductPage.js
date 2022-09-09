@@ -45,6 +45,20 @@ const ProductPage = () => {
     })();
   }, []);
 
+  const addProductHandler = (id) => {
+    dispatch({
+      type: ACTIONS_TYPE.ADD_TO_CART,
+      payload: id,
+    });
+  };
+
+  const removeProductHandler = (id) => {
+    dispatch({
+      type: ACTIONS_TYPE.REMOVE_FROM_CART,
+      payload: id,
+    });
+  };
+
   // console.log(state);
 
   return (
@@ -71,8 +85,22 @@ const ProductPage = () => {
                             <Card.Body>
                               <Card.Title>{el.title}</Card.Title>
                               <Card.Text>${el.price}</Card.Text>
-                              <Button variant="primary">Add to cart</Button>
-                              <Button variant="danger">Remove from cart</Button>
+
+                              {state.cart.find((p) => p.id === el.id) ? (
+                                <Button
+                                  variant="danger"
+                                  onClick={() => removeProductHandler(el.id)}
+                                >
+                                  Remove from cart
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  onClick={() => addProductHandler(el.id)}
+                                >
+                                  Add to cart
+                                </Button>
+                              )}
                             </Card.Body>
                           </Card>
                         </Col>
