@@ -7,6 +7,9 @@ import {
   Navbar,
   NavDropdown,
   Dropdown,
+  Col,
+  Card,
+  Row,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ProductPageContext } from '../../context/ProductPageContext';
@@ -14,7 +17,7 @@ import { ProductPageContext } from '../../context/ProductPageContext';
 const NavBar = () => {
   const { state, dispatch } = useContext(ProductPageContext);
 
-  console.log(state);
+  console.log(state.cart.length);
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -35,13 +38,49 @@ const NavBar = () => {
           </Nav>
           <Dropdown className="d-flex">
             <Dropdown.Toggle variant="secondary" size="sm" id="dropdown-basic">
-              Cart Items
+              <strong>{state.cart.length}</strong> Cart Items
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+            <Dropdown.Menu className="p-3">
+              <Col md={12}>
+                <Row>
+                  {state.cart &&
+                    state.cart.map((el) => {
+                      return (
+                        <Col md={12} key={el.id} className="mb-3">
+                          <Card>
+                            {/* <Card.Img variant="top" src={el.thumbnail} /> */}
+                            <Card.Body>
+                              <Card.Text>
+                                <strong>{el.title}</strong>
+                                <br /> ${el.price}
+                              </Card.Text>
+
+                              {/* {state.cart.find((p) => p.id === el.id) ? (
+                                <Button
+                                  variant="danger"
+                                  onClick={() => removeProductHandler(el.id)}
+                                >
+                                  Remove from cart
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  onClick={() => addProductHandler(el.id)}
+                                >
+                                  Add to cart
+                                </Button>
+                              )} */}
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      );
+                    })}
+                </Row>
+              </Col>
+              {/* <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </Navbar.Collapse>
